@@ -1,0 +1,29 @@
+{
+    "version": 1,
+    "formatters": {
+        "bw": {
+            "class": "logging.Formatter",
+            "format": "[{levelname:^9}], {asctime} - {message}",
+            "datefmt": "%Y.%m.%d, %H:%M:%S",
+            "style": "{"
+        }
+    },
+    "handlers": {
+        "terminal": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "bw",
+            "stream": "ext://sys.stdout"
+        }
+    },
+    "loggers": {
+        "chi_server": {
+            "level": "DEBUG",
+            "handlers": ["terminal"]
+        },
+        "uvicorn": {
+            "level": "INFO",
+            "handlers": ["terminal"]
+        }
+    }
+}
