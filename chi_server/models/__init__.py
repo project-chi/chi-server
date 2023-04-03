@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlmodel import SQLModel
 
-from .task import Kind, Task, TaskBase, TaskCreate, TaskRead
+from .task import Kind, Task, TaskBase, TaskCreate, TaskRead, TaskUpdate
 
 
 async def initialize_database(engine: AsyncEngine) -> None:
