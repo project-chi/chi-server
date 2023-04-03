@@ -2,8 +2,7 @@ version: "3.9"
 
 services:
     application:
-        build:
-            context: .
+        build: .
         restart: "on-failure"
         environment:
             DB_CREDENTIALS: "${DATABASE_USER}:${DATABASE_PASSWORD}"
@@ -33,8 +32,6 @@ services:
             retries: 5
         volumes:
             - "./postgresql-state:/var/lib/postgresql/data/"
-        ports:
-            - "5432:5432"
         networks:
             - common
 
