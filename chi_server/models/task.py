@@ -34,3 +34,11 @@ class TaskCreate(TaskBase):
 
 class TaskRead(TaskBase):
     identifier: UUID
+
+
+class TaskUpdate(SQLModel):
+    name: Optional[str] = None
+    kind: Optional[Kind] = None
+    problem: Optional[str] = None
+    initial: Optional[str] = None
+    solution: Optional[str] = None
