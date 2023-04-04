@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "chi-server"
-version = "0.2.2"
+version = "0.2.3"
 description = ""
 authors = ["Dmitriy Vashurin <kapkekes@yandex.ru>"]
 readme = "README.md"

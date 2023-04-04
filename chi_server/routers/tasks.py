@@ -8,7 +8,7 @@ from chi_server.engine import SessionDepends
 from chi_server.models import Task, TaskCreate, TaskRead, TaskUpdate
 
 router = APIRouter(
-    prefix="/api/tasks",
+    prefix="/tasks",
     tags=["tasks"],
     responses={404: {"description": "Not found"}}
 )
@@ -32,7 +32,14 @@ async def get_task_uuids(session: SessionDepends):
     return result.scalars().all()
 
 
-@router.get("/{identifier}", response_model=Optional[TaskRead])
+@router.get("/raw", response_model=list[TaskRead])
+async def get_tasks(session: SessionDepends):
+    statement = select(Task)
+    result = await session.execute(statement)
+    return result.scalars().all()
+
+
+@router.get("/{identifier}", response_model=TaskRead)
 async def get_task(session: SessionDepends, identifier: UUID):
     statement = select(Task).where(Task.identifier == identifier)
     result = await session.execute(statement)
@@ -61,7 +68,7 @@ async def update_task(session: SessionDepends, identifier: UUID, task: TaskUpdat
     return db_task
 
 
-@router.delete("/{identifier}", response_model=Optional[TaskRead])
+@router.delete("/{identifier}", response_model=TaskRead)
 async def delete_task(session: SessionDepends, identifier: UUID):
     statement = select(Task).where(Task.identifier == identifier)
     result = await session.execute(statement)
