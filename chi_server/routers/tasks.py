@@ -1,10 +1,11 @@
 from typing import Optional
 from uuid import UUID
 
-from engine import SessionDepends
 from fastapi import APIRouter, HTTPException
-from models import Task, TaskCreate, TaskRead, TaskUpdate
 from sqlalchemy.future import select
+
+from chi_server.engine import SessionDepends
+from chi_server.models import Task, TaskCreate, TaskRead, TaskUpdate
 
 router = APIRouter(
     prefix="/api/tasks",
@@ -13,7 +14,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=TaskRead)
+@router.post("", response_model=TaskRead)
 async def create_task(session: SessionDepends, task: TaskCreate):
     db_task = Task.from_orm(task)
 
@@ -24,8 +25,8 @@ async def create_task(session: SessionDepends, task: TaskCreate):
     return db_task
 
 
-@router.get("/", response_model=list[UUID])
-async def get_task_list(session: SessionDepends):
+@router.get("", response_model=list[UUID])
+async def get_task_uuids(session: SessionDepends):
     statement = select(Task.identifier)
     result = await session.execute(statement)
     return result.scalars().all()
@@ -44,7 +45,7 @@ async def get_task(session: SessionDepends, identifier: UUID):
 
 
 @router.patch("/{identifier}", response_model=TaskRead)
-async def update_hero(session: SessionDepends, identifier: UUID, task: TaskUpdate):
+async def update_task(session: SessionDepends, identifier: UUID, task: TaskUpdate):
     db_task = await session.get(Task, identifier)
     if db_task is None:
         raise HTTPException(status_code=404, detail="Task not found")
